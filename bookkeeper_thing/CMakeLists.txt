@@ -9,3 +9,7 @@ file(GLOB source_files ${source_dir}/*.cc)
 file(GLOB include_files ${include_dir}/${PROJECT_NAME}/*.hh)
 
 add_executable(${PROJECT_NAME} ${source_files} ${include_files})
+target_include_directories(${PROJECT_NAME}
+  PRIVATE
+    $<BUILD_INTERFACE:${include_dir}>
+ )
