@@ -1,37 +1,22 @@
 #include <bookkeeper_thing/version.hh>
 //
-#include <ncurses.h>
+#include <QtCore/QString>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QWidget>
 //
-#include <iostream>
-#include <string>
 
-using namespace gccore::bookkeeper_thing;
-
-auto const kTagedName = std::string(kName) + "-" + kVersion;
-auto const kStartMsg = "[STARTING]: " + kTagedName + "v";
-auto const kEndMsg = "[CLOSING]: " + kTagedName + "v";
-
-namespace {
-void PrintHelloMsg()
+int main(int argc, char** argv)
 {
-  using namespace gccore::bookkeeper_thing;
-  ::printw("%s\n", (kStartMsg).c_str());
-}
-void PrintBayMsg()
-{
-  using namespace gccore::bookkeeper_thing;
-  ::printw("%s\n", (kEndMsg).c_str());
-}
-}  // namespace
+  QApplication app(argc, argv);
 
-int main()
-{
-  initscr();
-  PrintHelloMsg();
-  PrintBayMsg();
-  refresh();
-  getch();
-  endwin();
+  QWidget* widget = new QWidget;
+  QHBoxLayout* layout = new QHBoxLayout;
+  widget->setLayout(layout);
+  layout->addWidget(new QLabel(gccore::bookkeeper_thing::kName));
+  widget->show();
 
-  return EXIT_SUCCESS;
+  int32_t const result = app.exec();
+  std::exit(result);
 }
