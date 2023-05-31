@@ -1,22 +1,79 @@
 #include <bookkeeper_thing/version.hh>
 //
-#include <QtCore/QString>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QLayout>
-#include <QtWidgets/QWidget>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+#define GL_SILENCE_DEPRECATION
+#include <GLFW/glfw3.h>
+
 //
+#include <cassert>
+#include <iostream>
+#include <string_view>
 
-int main(int argc, char** argv)
+static void GlfwErrorCallback(int32_t error, char const* msg)
 {
-  QApplication app(argc, argv);
+  std::cerr << "GLFW Error: " << error << ", " << msg << std::endl;
+}
 
-  QWidget* widget = new QWidget;
-  QHBoxLayout* layout = new QHBoxLayout;
-  widget->setLayout(layout);
-  layout->addWidget(new QLabel(gccore::bookkeeper_thing::kName));
-  widget->show();
+int main()
+{
+  glfwSetErrorCallback(GlfwErrorCallback);
+  assert(glfwInit() && "Couldn't init the GLFW things");
+  if (!glfwInit()) std::exit(EXIT_FAILURE);
 
-  int32_t const result = app.exec();
-  std::exit(result);
+  auto constexpr kGLSLVersion = "#version 130";
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+
+  GLFWwindow* const window = glfwCreateWindow(
+      800, 600, gccore::bookkeeper_thing::kName, nullptr, nullptr);
+  assert(window && "Couldn't create the window");
+  if (window == nullptr) std::exit(EXIT_FAILURE);
+
+  glfwMakeContextCurrent(window);
+  glfwSwapInterval(1);
+
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO& imgui_io = ImGui::GetIO();
+  imgui_io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+
+  ImGui_ImplGlfw_InitForOpenGL(window, true);
+  ImGui_ImplOpenGL3_Init(kGLSLVersion);
+
+  ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.6f, 1.0f);
+
+  bool show_something_window = true;
+  while (!glfwWindowShouldClose(window)) {
+    glfwPollEvents();
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
+    ImGui::Begin("Something", &show_something_window);
+    ImGui::Text("Ghasem");
+    ImGui::End();
+
+    ImGui::Render();
+    int32_t display_w = 0;
+    int32_t display_h = 0;
+    glfwGetFramebufferSize(window, &display_w, &display_h);
+    glViewport(0, 0, display_w, display_h);
+    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w,
+                 clear_color.z * clear_color.w, clear_color.w);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    glfwSwapBuffers(window);
+  }
+
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
+
+  glfwDestroyWindow(window);
+  glfwTerminate();
+
+  std::exit(EXIT_SUCCESS);
 }
