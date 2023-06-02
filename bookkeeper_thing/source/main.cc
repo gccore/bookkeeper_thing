@@ -39,19 +39,19 @@ int main()
   imgui_io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
   imgui_io.Fonts->AddFontFromFileTTF(GCCORE_IMGUI_FONT_PATH, 20.0f);
 
+  ImGui::StyleColorsLight();
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL3_Init(kGLSLVersion);
 
   ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.6f, 1.0f);
 
-  bool show_something_window = true;
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::Begin("Something", &show_something_window);
+    ImGui::Begin("Something", nullptr);
     ImGui::Text("Ghasem");
     ImGui::End();
 
