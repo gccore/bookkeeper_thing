@@ -5,8 +5,14 @@ set(pwd ${CMAKE_CURRENT_SOURCE_DIR})
 set(source_dir ${pwd}/source)
 set(include_dir ${pwd}/include)
 
-file(GLOB source_files ${source_dir}/*.cc)
-file(GLOB include_files ${include_dir}/${PROJECT_NAME}/*.hh)
+file(GLOB source_files
+  ${source_dir}/*.cc
+  ${source_dir}/widgets/*.cc
+)
+file(GLOB include_files
+  ${include_dir}/${PROJECT_NAME}/*.hh
+  ${include_dir}/${PROJECT_NAME}/widgets/*.hh
+)
 
 add_executable(${PROJECT_NAME} ${source_files} ${include_files})
 set_target_properties(${PROJECT_NAME}

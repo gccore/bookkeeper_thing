@@ -1,4 +1,5 @@
 #include <bookkeeper_thing/version.hh>
+#include <bookkeeper_thing/widgets/users_list.hh>
 //
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -45,14 +46,27 @@ int main()
 
   ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.6f, 1.0f);
 
+  using namespace gccore::bookkeeper_thing;
+  widgets::UsersList user_list;
+
+  std::string username;
+  username.resize(50);
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::Begin("Something", nullptr);
-    ImGui::Text("Ghasem");
+    ImGui::Begin("Users", nullptr);
+    user_list.draw();
+
+    ImGui::InputText("Name", username.data(), username.size());
+    if (ImGui::Button("Add")) {
+      if (!username.empty()) {
+        user_list.addUser(username);
+        username.clear();
+      }
+    }
     ImGui::End();
 
     ImGui::Render();
