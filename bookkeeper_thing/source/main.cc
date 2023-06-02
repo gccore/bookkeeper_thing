@@ -58,9 +58,10 @@ int main()
     ImGui::NewFrame();
 
     ImGui::Begin("Users", nullptr);
-    user_list.draw();
-
-    ImGui::InputText("Name", username.data(), username.size());
+    ImGui::Text("Name:");
+    ImGui::SameLine();
+    ImGui::InputText(" ", username.data(), username.size());
+    ImGui::SameLine();
     if (ImGui::Button("Add")) {
       if (!username.empty()) {
         user_list.addUser(username);
@@ -68,6 +69,7 @@ int main()
         username.resize(50);
       }
     }
+    user_list.draw();
     ImGui::End();
 
     ImGui::Render();
