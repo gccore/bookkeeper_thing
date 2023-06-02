@@ -19,10 +19,10 @@ void UsersList::draw()
 
     for (size_t row_idx = 0; row_idx < users_list_.size(); ++row_idx) {
       ImGui::TableNextRow();
-      for (size_t col_idx = 0; col_idx < kMaxColumn; ++col_idx) {
-        ImGui::TableSetColumnIndex(col_idx);
-        ImGui::Text("%s", users_list_.at(row_idx).c_str());
-      }
+      ImGui::TableSetColumnIndex(0);
+      ImGui::Text("%s", users_list_[row_idx].name.c_str());
+      ImGui::TableSetColumnIndex(1);
+      ImGui::Text("%u", users_list_[row_idx].dept);
     }
     ImGui::EndTable();
   }
@@ -30,7 +30,9 @@ void UsersList::draw()
 
 void UsersList::addUser(std::string const& name)
 {
-  users_list_.push_back(name);
+  structs::User new_user;
+  new_user.name = name;
+  users_list_.push_back(new_user);
 }
 
 }  // namespace gccore::bookkeeper_thing::widgets

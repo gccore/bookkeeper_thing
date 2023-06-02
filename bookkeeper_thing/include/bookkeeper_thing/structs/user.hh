@@ -10,7 +10,7 @@ struct User final {
   using List = std::vector<User>;
 
   std::string name;
-  int32_t dept;
+  uint32_t dept = 0;
 
   bool operator==(User const& other) const;
 };

@@ -65,6 +65,7 @@ int main()
       if (!username.empty()) {
         user_list.addUser(username);
         username.clear();
+        username.resize(50);
       }
     }
     ImGui::End();

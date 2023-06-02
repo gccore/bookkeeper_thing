@@ -1,5 +1,7 @@
 #pragma once
 
+#include <bookkeeper_thing/structs/user.hh>
+//
 #include <string>
 #include <vector>
 
@@ -12,7 +14,7 @@ class UsersList final {
   void addUser(std::string const& name);
 
  private:
-  std::vector<std::string> users_list_;
+  structs::User::List users_list_;
 };
 
 }  // namespace gccore::bookkeeper_thing::widgets
