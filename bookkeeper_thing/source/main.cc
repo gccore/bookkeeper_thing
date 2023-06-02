@@ -38,6 +38,7 @@ int main()
   ImGui::CreateContext();
   ImGuiIO& imgui_io = ImGui::GetIO();
   imgui_io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+  imgui_io.Fonts->AddFontFromFileTTF(GCCORE_IMGUI_FONT_PATH, 20.0f);
 
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL3_Init(kGLSLVersion);

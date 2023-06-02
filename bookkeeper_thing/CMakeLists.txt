@@ -19,6 +19,10 @@ target_include_directories(${PROJECT_NAME}
   PRIVATE
     $<BUILD_INTERFACE:${include_dir}>
 )
+target_compile_definitions(${PROJECT_NAME}
+  PRIVATE
+    GCCORE_IMGUI_FONT_PATH="${pwd}/../third_party/font/iosevka.ttf"
+)
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
     gccore::library::ImGUI
