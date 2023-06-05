@@ -12,6 +12,21 @@ void UsersList::draw()
       ImGuiTableFlags_BordersV;
   int32_t constexpr kMaxColumn = 2;
 
+  name_.resize(kMaxNameLen);
+  
+  ImGui::Begin("Users", nullptr);
+  ImGui::Text("Name:");
+  ImGui::SameLine();
+  ImGui::InputText(" ", name_.data(), name_.size());
+  ImGui::SameLine();
+  if (ImGui::Button("Add")) {
+    if (!name_.empty()) {
+      addUser(name_);
+      name_.clear();
+      name_.resize(kMaxNameLen);
+    }
+  }
+  
   if (ImGui::BeginTable("Users", kMaxColumn, kFlags)) {
     ImGui::TableSetupColumn("Name");
     ImGui::TableSetupColumn("Debt");
@@ -26,6 +41,7 @@ void UsersList::draw()
     }
     ImGui::EndTable();
   }
+  ImGui::End();
 }
 
 void UsersList::addUser(std::string const& name)

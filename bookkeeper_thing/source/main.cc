@@ -44,8 +44,6 @@ int main()
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL3_Init(kGLSLVersion);
 
-  ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.6f, 1.0f);
-
   using namespace gccore::bookkeeper_thing;
   widgets::UsersList user_list;
 
@@ -57,20 +55,7 @@ int main()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::Begin("Users", nullptr);
-    ImGui::Text("Name:");
-    ImGui::SameLine();
-    ImGui::InputText(" ", username.data(), username.size());
-    ImGui::SameLine();
-    if (ImGui::Button("Add")) {
-      if (!username.empty()) {
-        user_list.addUser(username);
-        username.clear();
-        username.resize(50);
-      }
-    }
     user_list.draw();
-    ImGui::End();
 
     ImGui::Render();
     int32_t display_w = 0;

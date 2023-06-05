@@ -14,7 +14,10 @@ class UsersList final {
   void addUser(std::string const& name);
 
  private:
+  static inline uint32_t constexpr kMaxNameLen = 50U;
+  
   structs::User::List users_list_;
+  std::string name_;
 };
 
 }  // namespace gccore::bookkeeper_thing::widgets
