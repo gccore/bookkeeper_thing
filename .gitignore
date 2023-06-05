@@ -2,4 +2,4 @@
 .directory
 *~
 build
-.ini
+*.ini
