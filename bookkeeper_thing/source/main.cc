@@ -1,5 +1,6 @@
 #include <bookkeeper_thing/version.hh>
 #include <bookkeeper_thing/widgets/users_list.hh>
+#include <bookkeeper_thing/widgets/stuff_list.hh>
 //
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -46,6 +47,7 @@ int main()
 
   using namespace gccore::bookkeeper_thing;
   widgets::UsersList user_list;
+  widgets::StuffList stuff_list(user_list.userList());
 
   std::string username;
   username.resize(50);
@@ -56,7 +58,8 @@ int main()
     ImGui::NewFrame();
 
     user_list.draw();
-
+    stuff_list.draw();
+    
     ImGui::Render();
     int32_t display_w = 0;
     int32_t display_h = 0;

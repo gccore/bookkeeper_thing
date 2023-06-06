@@ -4,6 +4,11 @@
 
 namespace gccore::bookkeeper_thing::widgets {
 
+structs::User::List const& UsersList::userList() const
+{
+  return users_list_;
+}
+
 void UsersList::draw()
 {
   ImGuiTableFlags constexpr kFlags =
@@ -13,7 +18,7 @@ void UsersList::draw()
   int32_t constexpr kMaxColumn = 2;
 
   name_.resize(kMaxNameLen);
-  
+
   ImGui::Begin("Users", nullptr);
   ImGui::Text("Name:");
   ImGui::SameLine();
@@ -26,7 +31,7 @@ void UsersList::draw()
       name_.resize(kMaxNameLen);
     }
   }
-  
+
   if (ImGui::BeginTable("Users", kMaxColumn, kFlags)) {
     ImGui::TableSetupColumn("Name");
     ImGui::TableSetupColumn("Debt");

@@ -9,6 +9,8 @@ namespace gccore::bookkeeper_thing::widgets {
 
 class UsersList final {
  public:
+  structs::User::List const& userList() const;
+
   void draw();
 
   void addUser(std::string const& name);
