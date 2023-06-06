@@ -19,15 +19,23 @@ void StuffList::draw()
   ImGui::InputText("Name", tmp_stuff_.name.data(), tmp_stuff_.name.size());
   ImGui::InputScalar("Price", ImGuiDataType_U32, &tmp_price_);
   tmp_stuff_.price = tmp_price_;
-  ImGui::Combo(
-      "User List", &current_user_idx_,
-      [](void* data, int32_t idx, char const** out) -> bool {
-        assert(data && "We don't have it");
-        *out = (*(structs::User::List const*)data)[idx].name.data();
-        return true;
-      },
-      (void*)(&const_cast<structs::User::List&>(users_list_)),
-      users_list_.size());
+
+  ImGui::RadioButton("Public Stuff", &radio_btn_idx_, structs::Stuff::ST_Public);
+  ImGui::SameLine();
+  ImGui::RadioButton("Personal Stuff", &radio_btn_idx_,
+                     structs::Stuff::ST_Personal);
+
+  if (radio_btn_idx_ == structs::Stuff::ST_Personal) {
+    ImGui::Combo(
+        "User List", &current_user_idx_,
+        [](void* data, int32_t idx, char const** out) -> bool {
+          assert(data && "We don't have it");
+          *out = (*(structs::User::List const*)data)[idx].name.data();
+          return true;
+        },
+        (void*)(&const_cast<structs::User::List&>(users_list_)),
+        users_list_.size());
+  }
 
   if (ImGui::Button("Add")) {
     if (!tmp_stuff_.name.empty()) {

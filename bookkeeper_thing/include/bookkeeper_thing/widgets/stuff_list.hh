@@ -23,7 +23,8 @@ class StuffList final {
   structs::Stuff::List stuffs_;
   structs::Stuff tmp_stuff_;
   int32_t current_user_idx_ = 0;
-  int32_t tmp_price_;
+  int32_t tmp_price_ = 0;
+  int32_t radio_btn_idx_ = structs::Stuff::ST_Public;
 };
 
 }  // namespace gccore::bookkeeper_thing::widgets
