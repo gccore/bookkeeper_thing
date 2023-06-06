@@ -16,17 +16,11 @@ void StuffList::draw()
   tmp_stuff_.name.resize(kMaxNameLen);
 
   ImGui::Begin("Stuff", nullptr);
-  ImGui::Text("Name: ");
-  ImGui::SameLine();
-  ImGui::InputText(" ", tmp_stuff_.name.data(), tmp_stuff_.name.size());
-  ImGui::Text("Price: ");
-  ImGui::SameLine();
-  ImGui::InputInt(" ", &tmp_price_);
+  ImGui::InputText("Name", tmp_stuff_.name.data(), tmp_stuff_.name.size());
+  ImGui::InputScalar("Price", ImGuiDataType_U32, &tmp_price_);
   tmp_stuff_.price = tmp_price_;
-  ImGui::Text("Users List:");
-  ImGui::SameLine();
   ImGui::Combo(
-      " ", &current_user_idx_,
+      "User List", &current_user_idx_,
       [](void* data, int32_t idx, char const** out) -> bool {
         assert(data && "We don't have it");
         *out = (*(structs::User::List const*)data)[idx].name.data();

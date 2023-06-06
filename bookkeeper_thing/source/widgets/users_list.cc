@@ -20,17 +20,14 @@ void UsersList::draw()
   name_.resize(kMaxNameLen);
 
   ImGui::Begin("Users", nullptr);
-  ImGui::Text("Name:");
-  ImGui::SameLine();
-  ImGui::InputText(" ", name_.data(), name_.size());
-  ImGui::SameLine();
   if (ImGui::Button("Add")) {
-    if (!name_.empty()) {
-      addUser(name_);
-      name_.clear();
-      name_.resize(kMaxNameLen);
-    }
+    addUser(name_);
+    name_.clear();
+    name_.resize(kMaxNameLen);
   }
+  ImGui::SameLine();
+  ImGui::InputText("Name", name_.data(), name_.size());
+  
 
   if (ImGui::BeginTable("Users", kMaxColumn, kFlags)) {
     ImGui::TableSetupColumn("Name");
