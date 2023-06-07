@@ -1,5 +1,7 @@
 #include <bookkeeper_thing/widgets/stuff_list.hh>
 //
+#include <bookkeeper_thing/constants.hh>
+//
 #include <imgui.h>
 //
 #include <cassert>
@@ -44,12 +46,8 @@ void StuffList::draw()
         (void*)(&const_cast<structs::User::List&>(users_list_)),
         users_list_.size());
 
-    ImGuiTableFlags constexpr kFlags =
-        ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable |
-        ImGuiTableFlags_Hideable | ImGuiTableFlags_BordersOuter |
-        ImGuiTableFlags_BordersV;
     int32_t constexpr kMaxUserColumns = 1;
-    if (ImGui::BeginTable("Users", kMaxUserColumns, kFlags)) {
+    if (ImGui::BeginTable("Users", kMaxUserColumns, constants::kTableFlags)) {
       ImGui::TableSetupColumn("Name");
       ImGui::TableHeadersRow();
 
@@ -69,6 +67,18 @@ void StuffList::draw()
     if (!tmp_stuff_.name.empty()) {
       tmp_stuff_.type = structs::Stuff::Type(radio_btn_idx_);
     }
+  }
+
+  /* Name | Price | Count | Type | Consumers */
+  int32_t constexpr kMaxStuffColumns = 5;
+  if (ImGui::BeginTable("Stuff", kMaxStuffColumns, constants::kTableFlags)) {
+    ImGui::TableSetupColumn("Name");
+    ImGui::TableSetupColumn("Price");
+    ImGui::TableSetupColumn("Count");
+    ImGui::TableSetupColumn("Type");
+    ImGui::TableSetupColumn("Consumers");
+    ImGui::TableHeadersRow();
+    ImGui::EndTable();
   }
 
   ImGui::End();
