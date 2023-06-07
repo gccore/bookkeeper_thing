@@ -28,6 +28,12 @@ void StuffList::draw()
 
   if (radio_btn_idx_ == structs::Stuff::ST_Personal) {
     ImGui::SeparatorText("Choose the consumers");
+
+    if (ImGui::Button("Add")) {
+      tmp_stuff_.consumers.push_back(users_list_.at(current_user_idx_));
+    }
+    ImGui::SameLine();
+
     ImGui::Combo(
         "User List", &current_user_idx_,
         [](void* data, int32_t idx, char const** out) -> bool {
@@ -51,7 +57,7 @@ void StuffList::draw()
            ++row_idx) {
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        ImGui::Text("%s", tmp_stuff_.consumers[row_idx].name.c_str());
+        ImGui::Text("%s", tmp_stuff_.consumers.at(row_idx).name.c_str());
       }
       ImGui::EndTable();
     }
