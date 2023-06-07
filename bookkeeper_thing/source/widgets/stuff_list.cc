@@ -48,8 +48,8 @@ void StuffList::draw()
         ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable |
         ImGuiTableFlags_Hideable | ImGuiTableFlags_BordersOuter |
         ImGuiTableFlags_BordersV;
-    int32_t constexpr kMaxColumn = 1;
-    if (ImGui::BeginTable("Users", kMaxColumn, kFlags)) {
+    int32_t constexpr kMaxUserColumns = 1;
+    if (ImGui::BeginTable("Users", kMaxUserColumns, kFlags)) {
       ImGui::TableSetupColumn("Name");
       ImGui::TableHeadersRow();
 
@@ -70,6 +70,7 @@ void StuffList::draw()
       tmp_stuff_.type = structs::Stuff::Type(radio_btn_idx_);
     }
   }
+
   ImGui::End();
 }
 
