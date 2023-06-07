@@ -65,7 +65,7 @@ void StuffList::draw()
     ImGui::SeparatorText("=");
   }
 
-  if (ImGui::Button("Add")) {
+  if (ImGui::Button("Add Stuff")) {
     if (!tmp_stuff_.name.empty()) {
       tmp_stuff_.type = structs::Stuff::Type(radio_btn_idx_);
     }
