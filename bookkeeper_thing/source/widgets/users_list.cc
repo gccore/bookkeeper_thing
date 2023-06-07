@@ -1,5 +1,7 @@
 #include <bookkeeper_thing/widgets/users_list.hh>
 //
+#include <bookkeeper_thing/constants.hh>
+//
 #include <imgui.h>
 
 namespace gccore::bookkeeper_thing::widgets {
@@ -11,10 +13,6 @@ structs::User::List const& UsersList::userList() const
 
 void UsersList::draw()
 {
-  ImGuiTableFlags constexpr kFlags =
-      ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable |
-      ImGuiTableFlags_Hideable | ImGuiTableFlags_BordersOuter |
-      ImGuiTableFlags_BordersV;
   int32_t constexpr kMaxColumn = 2;
 
   name_.resize(kMaxNameLen);
@@ -27,9 +25,8 @@ void UsersList::draw()
   }
   ImGui::SameLine();
   ImGui::InputText("Name", name_.data(), name_.size());
-  
 
-  if (ImGui::BeginTable("Users", kMaxColumn, kFlags)) {
+  if (ImGui::BeginTable("Users", kMaxColumn, constants::kTableFlags)) {
     ImGui::TableSetupColumn("Name");
     ImGui::TableSetupColumn("Debt");
     ImGui::TableHeadersRow();
