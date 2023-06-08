@@ -22,11 +22,13 @@ void StuffList::draw()
   ImGui::InputScalar("Price", ImGuiDataType_U32, &tmp_price_);
   tmp_stuff_.price = tmp_price_;
 
-  ImGui::RadioButton("Public Stuff", &radio_btn_idx_,
-                     structs::Stuff::ST_Public);
+  char const* const StuffTypesNameStr[] = {"Public", "Personal"};
+
+  ImGui::RadioButton(StuffTypesNameStr[structs::Stuff::ST_Public],
+                     &radio_btn_idx_, structs::Stuff::ST_Public);
   ImGui::SameLine();
-  ImGui::RadioButton("Personal Stuff", &radio_btn_idx_,
-                     structs::Stuff::ST_Personal);
+  ImGui::RadioButton(StuffTypesNameStr[structs::Stuff::ST_Personal],
+                     &radio_btn_idx_, structs::Stuff::ST_Personal);
 
   if (radio_btn_idx_ == structs::Stuff::ST_Personal) {
     ImGui::SeparatorText("Choose the consumers");
@@ -71,13 +73,42 @@ void StuffList::draw()
 
   /* Name | Price | Count | Type | Consumers */
   int32_t constexpr kMaxStuffColumns = 5;
+  enum StuffColName { SN_Name, SN_Price, SN_Count, SN_Type, SN_Consumers };
+  char const* const StuffColNameStr[] = {"Name", "Price", "Count", "Type",
+                                         "Consumers"};
   if (ImGui::BeginTable("Stuff", kMaxStuffColumns, constants::kTableFlags)) {
-    ImGui::TableSetupColumn("Name");
-    ImGui::TableSetupColumn("Price");
-    ImGui::TableSetupColumn("Count");
-    ImGui::TableSetupColumn("Type");
-    ImGui::TableSetupColumn("Consumers");
+    ImGui::TableSetupColumn(StuffColNameStr[SN_Name]);
+    ImGui::TableSetupColumn(StuffColNameStr[SN_Price]);
+    ImGui::TableSetupColumn(StuffColNameStr[SN_Count]);
+    ImGui::TableSetupColumn(StuffColNameStr[SN_Type]);
+    ImGui::TableSetupColumn(StuffColNameStr[SN_Consumers]);
     ImGui::TableHeadersRow();
+
+    stuffs_.push_back(tmp_stuff_);
+    tmp_stuff_ = structs::Stuff();
+
+    ImGui::TableNextRow();
+    ImGui::TableSetColumnIndex(SN_Name);
+    ImGui::Text("%s", stuffs_.back().name.c_str());
+    ImGui::TableSetColumnIndex(SN_Price);
+    ImGui::Text("%u", stuffs_.back().price);
+    ImGui::TableSetColumnIndex(SN_Count);
+    ImGui::Text("%u", stuffs_.back().count);
+    ImGui::TableSetColumnIndex(SN_Type);
+    ImGui::Text("%s", stuffs_.back().type == structs::Stuff::ST_Public
+                          ? StuffTypesNameStr[structs::Stuff::ST_Public]
+                          : StuffTypesNameStr[structs::Stuff::ST_Personal]);
+    ImGui::TableSetColumnIndex(SN_Consumers);
+    int32_t tmp_idx = 0;
+    ImGui::Combo(
+        " ", &tmp_idx,
+        [](void* data, int32_t idx, char const** out) -> bool {
+          assert(data && "We don't have it");
+          *out = (*(structs::Stuff::List const*)data)[idx].name.data();
+          return true;
+        },
+        (void*)(stuffs_.back()), stuffs_.back().consumers.size());
+
     ImGui::EndTable();
   }
 
